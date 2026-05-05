@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "HSBC Egypt USD/EGP Monitor",
+  "name": "USD/EGP + Gold Monitor",
   "version": "1.0.0",
-  "description": "Track USD/EGP exchange rate and Gold Ounce (USD) with direct APIs",
+  "description": "Track USD/EGP exchange rate and Gold prices (USD/oz) with direct APIs",
   "permissions": [
     "storage",
     "alarms"

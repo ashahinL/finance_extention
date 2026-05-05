@@ -1,173 +1,223 @@
-# HSBC Egypt USD/EGP Exchange Rate Monitor
+# USD/EGP + Gold Monitor
 
-A Chrome extension that monitors real-time USD to EGP exchange rates from HSBC Egypt via Ta3weem.com.
+A lightweight Chrome extension that monitors real-time USD to EGP exchange rates and gold prices using public APIs.
 
 ## Features
 
-- 🔄 **Real-time Updates**: Automatically fetches HSBC Egypt's USD/EGP exchange rates every 5 minutes
-- 📊 **Clean Interface**: Beautiful popup showing buy and sell rates
-- 💾 **Local Storage**: Stores rates locally for offline viewing
-- 🔔 **Badge Indicator**: Shows current sell rate in extension badge
-- 🌐 **Direct Access**: Quick link to visit Ta3weem.com
-- 📱 **Responsive Design**: Modern, mobile-friendly interface
+- 💱 **Live Exchange Rates**: Track USD/EGP rates with automatic updates every 10 minutes
+- 🪙 **Gold Prices**: Monitor gold prices in USD per ounce
+- 📱 **Clean UI**: Beautiful, responsive popup interface
+- 🔄 **Auto-Refresh**: Background service automatically fetches latest data
+- 💾 **Offline Support**: Cached data available when offline
+- 🔀 **Fallback APIs**: Automatic fallback from primary to secondary data sources
+- ⏱️ **Timestamp Tracking**: See exactly when rates were last updated
+- 🟢 **Status Indicators**: Visual feedback for connection status
 
 ## Installation
 
-### Method 1: Load Unpacked Extension (Developer Mode)
+### Load Unpacked Extension (Developer Mode)
 
-1. **Download the Extension Files**
-   - Download all files: `manifest.json`, `popup.html`, `popup.js`, `background.js`, `content.js`
-   - Create a folder (e.g., "HSBC-Monitor") and place all files inside
+1. **Prepare Files**
+   - Ensure you have: `manifest.json`, `popup.html`, `popup.js`, `background.js`, and this folder
 
-2. **Open Chrome Extensions Page**
+2. **Open Chrome Extensions**
    - Navigate to `chrome://extensions/`
-   - Or click the menu (⋮) → More tools → Extensions
+   - Or menu (⋮) → More tools → Extensions
 
 3. **Enable Developer Mode**
-   - Toggle the "Developer mode" switch in the top right corner
+   - Toggle "Developer mode" in the top right corner
 
-4. **Load the Extension**
+4. **Load Extension**
    - Click "Load unpacked"
-   - Select the folder containing your extension files
-   - The extension will appear in your extensions list
+   - Select this folder
+   - Extension will appear in your extensions list
 
-5. **Pin the Extension**
-   - Click the puzzle piece icon in the toolbar
-   - Click the pin icon next to "HSBC Egypt USD/EGP Monitor"
+5. **Pin for Easy Access**
+   - Click the puzzle piece icon in your toolbar
+   - Pin "USD/EGP + Gold Monitor" for quick access
 
 ## Usage
 
-### Basic Usage
+### Viewing Rates
 
-1. **Click the Extension Icon**: Click the HSBC monitor icon in your toolbar
-2. **View Rates**: The popup will show current buy/sell rates for USD/EGP
-3. **Refresh**: Click "Refresh" to get the latest rates
-4. **Visit Source**: Click "Visit Ta3weem" to open the source website
+1. Click the extension icon in your toolbar
+2. View current USD/EGP exchange rate and gold price
+3. See data source and last update timestamp
+4. Click **Refresh** to fetch latest rates immediately
 
-### Automatic Features
+### Automatic Updates
 
-- **Auto-refresh**: Rates update automatically every 5 minutes in the background
-- **Badge Display**: The extension badge shows the current sell rate
-- **Persistent Storage**: Rates are saved locally and displayed even offline
-
-### Status Indicators
-
-- 🟢 **Green Dot**: Connected and rates are current
-- 🔴 **Red Dot**: Connection failed or rates are stale
-- 🔵 **Blue Dot**: Currently fetching new rates
+- **Background Refresh**: Data updates automatically every 10 minutes
+- **Cache Display**: Previously cached rates display instantly on popup open
+- **Status Indicator**: Shows connection status and last update time
 
 ## How It Works
 
-1. **Background Service**: The extension runs a service worker that periodically visits Ta3weem.com
-2. **Web Scraping**: It parses the HTML table to extract HSBC's USD/EGP rates
-3. **Data Storage**: Rates are stored locally using Chrome's storage API
-4. **Real-time Display**: The popup interface shows current and historical rate data
+1. **Background Service**: Chrome service worker fetches market data on a schedule
+2. **Multiple Data Sources**: 
+   - Primary: [open.er-api.com](https://open.er-api.com) for exchange rates
+   - Gold: [api.gold-api.com](https://api.gold-api.com) for gold prices
+   - Fallback: [stooq.com](https://stooq.com) if primary API fails
+3. **Local Caching**: Data stored via Chrome Storage API
+4. **Real-time Display**: Popup shows latest cached or freshly fetched data
 
 ## Technical Details
 
-### Files Structure
+### Project Structure
 
 ```
-HSBC-Monitor/
-├── manifest.json      # Extension configuration
-├── popup.html        # Popup interface
-├── popup.js          # Popup functionality
-├── background.js     # Background service worker
-├── content.js        # Content script for ta3weem.com
-└── README.md         # This file
+usd-monitor/
+├── manifest.json       # Extension configuration (v3)
+├── background.js       # Service worker for data fetching
+├── popup.html         # Popup UI
+├── popup.js           # Popup logic
+├── content.js         # Content script (if needed)
+├── app.js             # Demo application
+├── style.css          # Styling
+├── index.html         # Demo/testing page
+├── script.py          # Python helper script
+└── README.md          # This file
 ```
 
-### Permissions Used
+### Permissions
 
-- **activeTab**: To interact with the current browser tab
-- **storage**: To save exchange rates locally
-- **scripting**: To inject scripts for data extraction
-- **host_permissions**: Access to ta3weem.com for scraping
+- **storage**: Cache market data locally
+- **alarms**: Schedule periodic data refresh
+- **host_permissions**: Access to:
+  - `https://open.er-api.com/*` (primary exchange rates)
+  - `https://api.gold-api.com/*` (gold prices)
+  - `https://stooq.com/*` (fallback rates)
 
-### Data Source
+### Data Flow
 
-The extension scrapes data from [Ta3weem.com](https://ta3weem.com/old/), specifically looking for HSBC Egypt's USD/EGP exchange rates in the bank comparison table.
+1. **Background.js** fetches from APIs every 10 minutes
+2. Data stored in Chrome's `local` storage
+3. **Popup.js** retrieves cached data on open
+4. User can manually refresh for immediate update
+5. Fallback to secondary source if primary API fails
+
+### API Specifications
+
+- **Exchange Rate**: USD to EGP conversion
+- **Gold**: USD per troy ounce
+- **Update Interval**: 10 minutes (configurable)
+- **Fallback Strategy**: Automatic retry with alternate source
 
 ## Troubleshooting
 
-### Extension Not Working
+### No Data Displays
 
-1. **Check Permissions**: Ensure the extension has necessary permissions
-2. **Reload Extension**: Go to `chrome://extensions/` and click the reload icon
-3. **Clear Storage**: Right-click extension → Options → Clear stored data
-4. **Check Network**: Ensure you can access ta3weem.com directly
+1. Check network connection
+2. Reload extension: `chrome://extensions/` → reload icon
+3. Clear cache: Open DevTools → Application → Storage → Clear All
+4. Check if APIs are accessible in your region
 
-### No Rates Displayed
+### Rates Not Updating Automatically
 
-1. **Visit Ta3weem**: Navigate to ta3weem.com/old/ in a browser tab
-2. **Check HSBC Data**: Verify HSBC rates are visible on the page
-3. **Manual Refresh**: Click the "Refresh" button in the popup
-4. **Wait for Auto-update**: The extension updates automatically every 5 minutes
+- Check if `background.js` service worker is running (check Chrome DevTools)
+2. Verify refresh interval in manifest (currently 10 minutes)
+3. Try manual refresh to test API connectivity
 
-### Badge Shows "!" 
+### Connection Status Meanings
 
-This indicates an error occurred:
-- Check internet connection
-- Verify ta3weem.com is accessible
-- Reload the extension
+- 🟢 **Online**: Data successfully fetched from primary API
+- 🟡 **Connecting**: Data fetch in progress
+- 🔴 **Offline**: Unable to fetch data (cached data displayed)
+
+### API Not Responding
+
+1. Check your internet connection
+2. Try manual refresh first
+3. Check if APIs are accessible in your region/network
+4. Clear browser cache and reload extension
+5. Fallback source (stooq.com) will be used if primary fails
+
+## Configuration
+
+### Modify Refresh Interval
+
+Edit `background.js`, line with `REFRESH_INTERVAL_MINUTES`:
+
+```javascript
+const REFRESH_INTERVAL_MINUTES = 10; // Change to desired minutes
+```
+
+Reload the extension after changes.
 
 ## Privacy & Security
 
-- **No Data Collection**: The extension doesn't collect or transmit personal data
-- **Local Storage Only**: All data is stored locally in your browser
-- **No External Servers**: No data is sent to external servers except ta3weem.com for scraping
-- **Open Source**: All code is visible and can be audited
+- **No Personal Data**: Extension doesn't collect user information
+- **Local Storage Only**: All data cached locally in your browser
+- **Open APIs**: Uses public, free APIs only
+- **No Tracking**: No analytics or external requests beyond data APIs
+- **Transparent**: All code is visible and auditable
 
 ## Development
 
-### Manifest V3 Compliance
+### Built with Manifest V3
 
-This extension is built using Chrome's latest Manifest V3 standard, ensuring:
-- Better security with service workers
-- Improved performance
-- Future compatibility
+Modern Chrome extension standard ensuring:
+- Enhanced security with service workers
+- Better performance and resource management  
+- Future Chrome compatibility
 
 ### Customization
 
-You can modify the extension by editing the JavaScript files:
-- `popup.js`: Change the user interface behavior
-- `background.js`: Modify scraping frequency or data processing
-- `content.js`: Adjust the scraping logic
+Modify the extension by editing:
+- **background.js**: Change fetch frequency, API endpoints, or data processing
+- **popup.js**: Customize UI behavior and data display
+- **popup.html**: Adjust layout and elements
+- **style.css**: Modify visual appearance
+
+## API Data Sources
+
+| Source | Data | Primary/Fallback | Endpoint |
+|--------|------|------------------|----------|
+| open.er-api.com | USD/EGP Rate | Primary | `v6/latest/USD` |
+| api.gold-api.com | Gold Price | Primary | Gold API endpoint |
+| stooq.com | USD/EGP Rate | Fallback | Market data |
 
 ## Support
 
-### Common Issues
+### Troubleshooting Checklist
 
-**Q: Extension shows old rates**
-A: Click "Refresh" or wait for the automatic 5-minute update cycle.
+1. ✅ Check network connection
+2. ✅ Reload extension (`chrome://extensions/` → reload)
+3. ✅ Try manual refresh in popup
+4. ✅ Clear browser cache
+5. ✅ Check if APIs are accessible in your region
+6. ✅ Re-add extension if issues persist
 
-**Q: Badge shows "..." constantly** 
-A: The extension is still loading. Wait a few moments or check your internet connection.
+### Common Questions
 
-**Q: Popup shows "Unable to fetch rates"**
-A: This usually means ta3weem.com is temporarily unavailable or the page structure has changed.
+**Q: Why do rates sometimes differ between sources?**
+A: APIs update at different frequencies and may have slight variations. Use the "Source" label to identify which API provided the data.
 
-### Reporting Issues
+**Q: Can I change the update frequency?**
+A: Yes, edit `REFRESH_INTERVAL_MINUTES` in `background.js` and reload the extension.
 
-If you encounter problems:
-1. Check the browser console for error messages
-2. Try disabling and re-enabling the extension
-3. Ensure ta3weem.com loads properly in your browser
+**Q: Why shows "Fallback" in the source?**
+A: Primary API wasn't reachable, so fallback source was used. Check your connection and manually refresh.
+
+**Q: Does it work offline?**
+A: Partially - previously cached data displays, but you can't fetch fresh rates without internet.
 
 ## Version History
 
-### v1.0.0 (Initial Release)
-- Real-time HSBC USD/EGP rate monitoring
-- Clean popup interface with buy/sell rates
-- Automatic background updates every 5 minutes
-- Local storage for offline viewing
-- Badge indicator showing current sell rate
-- Direct link to ta3weem.com source
+### v1.0.0 (Current)
+- USD/EGP exchange rate monitoring via APIs
+- Gold price tracking (USD/oz)
+- 10-minute automatic refresh cycle
+- Multiple data sources with fallback logic
+- Local caching for offline viewing
+- Real-time status indicators
+- Manual refresh capability
+- Source tracking and timestamps
 
 ## License
 
-This extension is provided as-is for educational and personal use. The exchange rate data is sourced from Ta3weem.com and belongs to their respective owners.
+This extension is provided as-is for educational and personal use. Exchange rate and gold price data comes from public APIs and their respective owners.
 
 ## Disclaimer
 
-This extension is not affiliated with HSBC Egypt or Ta3weem.com. Exchange rates shown are for informational purposes only and may not reflect real-time market conditions. Always verify rates with official sources before making financial decisions.
+This extension is not affiliated with any of the data providers (open.er-api.com, api.gold-api.com, or stooq.com). Market data is for informational purposes only and may not reflect real-time conditions. Always verify rates with official financial sources before making financial decisions.

@@ -1,31 +1,27 @@
-# Let me create a comprehensive Chrome extension for monitoring HSBC Egypt USD/EGP exchange rates
+# Chrome Extension: USD/EGP + Gold Monitor
+# This script was used to generate the extension files
 
-# First, let's create the manifest.json file
-manifest_json = {
+# Updated configuration for API-based monitoring
+manifest_config = {
     "manifest_version": 3,
-    "name": "HSBC Egypt USD/EGP Monitor",
+    "name": "USD/EGP + Gold Monitor",
     "version": "1.0.0",
-    "description": "Monitor USD to EGP exchange rates from HSBC Egypt via Ta3weem.com",
+    "description": "Monitor USD/EGP exchange rates and gold prices using public APIs",
     "permissions": [
-        "activeTab",
         "storage",
-        "scripting"
+        "alarms"
     ],
     "host_permissions": [
-        "https://ta3weem.com/*"
+        "https://open.er-api.com/*",
+        "https://api.gold-api.com/*",
+        "https://stooq.com/*"
     ],
     "background": {
         "service_worker": "background.js"
     },
-    "content_scripts": [
-        {
-            "matches": ["https://ta3weem.com/*"],
-            "js": ["content.js"]
-        }
-    ],
     "action": {
         "default_popup": "popup.html",
-        "default_title": "HSBC USD/EGP Rates",
+        "default_title": "USD/EGP + Gold Monitor",
         "default_icon": {
             "16": "icon16.png",
             "48": "icon48.png",
@@ -39,5 +35,12 @@ manifest_json = {
     }
 }
 
-print("Manifest JSON created:")
-print(manifest_json)
+# API endpoints
+api_endpoints = {
+    "primary_exchange_rate": "https://open.er-api.com/v6/latest/USD",
+    "gold_price": "https://api.gold-api.com/v1/spot/usd",
+    "fallback_exchange_rate": "https://stooq.com/api/v2/data",
+    "data_format": "JSON"
+}
+
+print("Configuration updated to use API-based data sources")
