@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HSBC Egypt USD/EGP Monitor Extension</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <h1 class="header__title">HSBC Egypt USD/EGP Monitor</h1>
+            <p class="header__subtitle">Chrome Extension for Real-time Exchange Rate Tracking</p>
+        </div>
+    </header>
+
+    <main class="main">
+        <div class="container">
+            <!-- Demo Section -->
+            <section class="demo-section">
+                <h2>Live Extension Demo</h2>
+                <div class="browser-mockup">
+                    <div class="browser-header">
+                        <div class="browser-controls">
+                            <div class="control-dot"></div>
+                            <div class="control-dot"></div>
+                            <div class="control-dot"></div>
+                        </div>
+                        <div class="address-bar">
+                            <span>https://ta3weem.com/old/</span>
+                        </div>
+                        <div class="browser-toolbar">
+                            <div class="extension-icon" id="extensionIcon">
+                                <div class="icon-badge" id="iconBadge">48.13</div>
+                                <span class="extension-icon-text">₹</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="browser-content">
+                        <div class="ta3weem-mockup">
+                            <h3>Ta3weem.com - Exchange Rates</h3>
+                            <div class="rates-table">
+                                <div class="table-row header-row">
+                                    <div>Bank</div>
+                                    <div>Buy</div>
+                                    <div>Sell</div>
+                                </div>
+                                <div class="table-row hsbc-row">
+                                    <div>HSBC Egypt</div>
+                                    <div class="buy-rate">48.13 EGP</div>
+                                    <div class="sell-rate">48.23 EGP</div>
+                                </div>
+                                <div class="table-row">
+                                    <div>CIB Bank</div>
+                                    <div>48.10 EGP</div>
+                                    <div>48.25 EGP</div>
+                                </div>
+                                <div class="table-row">
+                                    <div>NBE Bank</div>
+                                    <div>48.05 EGP</div>
+                                    <div>48.30 EGP</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Extension Popup -->
+                <div class="extension-popup hidden" id="extensionPopup">
+                    <div class="popup-header">
+                        <div class="status-indicator">
+                            <div class="status-dot connected" id="statusDot"></div>
+                            <span id="statusText">Connected</span>
+                        </div>
+                    </div>
+                    <div class="popup-content">
+                        <h3>HSBC Egypt USD/EGP</h3>
+                        <div class="rates-display">
+                            <div class="rate-item">
+                                <span class="rate-label">Buy:</span>
+                                <span class="rate-value" id="buyRate">48.13</span>
+                                <span class="currency">EGP</span>
+                            </div>
+                            <div class="rate-item">
+                                <span class="rate-label">Sell:</span>
+                                <span class="rate-value" id="sellRate">48.23</span>
+                                <span class="currency">EGP</span>
+                            </div>
+                        </div>
+                        <div class="last-updated" id="lastUpdated">
+                            Last updated: Sep 21, 2025 10:45 AM
+                        </div>
+                    </div>
+                    <div class="popup-actions">
+                        <button class="btn btn--secondary btn--sm" id="refreshBtn">
+                            <span class="refresh-icon">⟲</span>
+                            Refresh
+                        </button>
+                        <button class="btn btn--primary btn--sm" id="visitBtn">
+                            Visit Ta3weem
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Features Section -->
+            <section class="features-section">
+                <h2>Key Features</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">🔄</div>
+                        <h3>Real-time Updates</h3>
+                        <p>Automatically fetches fresh rates every 5 minutes</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">💾</div>
+                        <h3>Local Storage</h3>
+                        <p>View last rates even when offline</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🏷️</div>
+                        <h3>Badge Indicator</h3>
+                        <p>Shows current buy rate on extension icon</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🎨</div>
+                        <h3>Clean Interface</h3>
+                        <p>Beautiful gradient popup design</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Installation Guide -->
+            <section class="installation-section">
+                <h2>Installation Guide</h2>
+                <div class="install-steps">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h3>Download Extension Files</h3>
+                            <p>Download all extension files and create a new folder for them</p>
+                            <div class="file-list">
+                                <div class="file-item">
+                                    <span class="file-icon">📄</span>
+                                    <span>manifest.json</span>
+                                    <span class="file-size">1.2KB</span>
+                                </div>
+                                <div class="file-item">
+                                    <span class="file-icon">📄</span>
+                                    <span>popup.html</span>
+                                    <span class="file-size">3.1KB</span>
+                                </div>
+                                <div class="file-item">
+                                    <span class="file-icon">📄</span>
+                                    <span>popup.js</span>
+                                    <span class="file-size">4.8KB</span>
+                                </div>
+                                <div class="file-item">
+                                    <span class="file-icon">📄</span>
+                                    <span>background.js</span>
+                                    <span class="file-size">3.9KB</span>
+                                </div>
+                                <div class="file-item">
+                                    <span class="file-icon">📄</span>
+                                    <span>content.js</span>
+                                    <span class="file-size">2.7KB</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h3>Open Chrome Extensions</h3>
+                            <p>Navigate to <code>chrome://extensions/</code> in your Chrome browser</p>
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h3>Enable Developer Mode</h3>
+                            <p>Toggle the "Developer mode" switch in the top-right corner</p>
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <h3>Load Unpacked Extension</h3>
+                            <p>Click "Load unpacked" and select your extension folder</p>
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-number">5</div>
+                        <div class="step-content">
+                            <h3>Pin Extension</h3>
+                            <p>Pin the extension to your Chrome toolbar for easy access</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Technical Details -->
+            <section class="technical-section">
+                <h2>Technical Implementation</h2>
+                <div class="tech-grid">
+                    <div class="tech-card">
+                        <h3>Manifest Configuration</h3>
+                        <pre><code>{
+  "manifest_version": 3,
+  "name": "HSBC Egypt USD/EGP Monitor",
+  "version": "1.0.0",
+  "permissions": ["activeTab", "storage", "scripting"],
+  "host_permissions": ["https://ta3weem.com/*"]
+}</code></pre>
+                    </div>
+
+                    <div class="tech-card">
+                        <h3>Web Scraping Logic</h3>
+                        <pre><code>function scrapeHSBCRates() {
+  const rows = document.querySelectorAll('tr');
+  for (let row of rows) {
+    if (row.textContent.includes('HSBC')) {
+      // Extract rates from table cells
+      return { buyRate, sellRate };
+    }
+  }
+}</code></pre>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Download Section -->
+            <section class="download-section">
+                <h2>Download Extension</h2>
+                <p>Get all the extension files to install on your Chrome browser</p>
+                <div class="download-buttons">
+                    <a href="https://ppl-ai-code-interpreter-files.s3.amazonaws.com/web/direct-files/3d1023d4e3eab051b585791096a6fad7/a6e1d861-469c-4882-89e6-0142188fccaf/ffa5b716.json" target="_blank" class="btn btn--outline">
+                        Download manifest.json
+                    </a>
+                    <a href="https://ppl-ai-code-interpreter-files.s3.amazonaws.com/web/direct-files/3d1023d4e3eab051b585791096a6fad7/5c245b9a-6c43-4675-a8e5-b77c2e500899/28d0d8f0.html" target="_blank" class="btn btn--outline">
+                        Download popup.html
+                    </a>
+                    <a href="https://ppl-ai-code-interpreter-files.s3.amazonaws.com/web/direct-files/3d1023d4e3eab051b585791096a6fad7/9926e77d-f364-48a0-b55d-5691fcb74798/3df6958c.js" target="_blank" class="btn btn--outline">
+                        Download popup.js
+                    </a>
+                    <a href="https://ppl-ai-code-interpreter-files.s3.amazonaws.com/web/direct-files/3d1023d4e3eab051b585791096a6fad7/3f0feeef-7c1a-4a4f-a54a-f7dddca7530a/bb06783f.js" target="_blank" class="btn btn--outline">
+                        Download background.js
+                    </a>
+                    <a href="https://ppl-ai-code-interpreter-files.s3.amazonaws.com/web/direct-files/3d1023d4e3eab051b585791096a6fad7/7e6167a4-d9cd-4788-8f39-fbb79ec7cd97/15c94772.js" target="_blank" class="btn btn--outline">
+                        Download content.js
+                    </a>
+                </div>
+                <div class="download-help">
+                    <p><strong>Need help?</strong> Check out the <a href="https://ppl-ai-code-interpreter-files.s3.amazonaws.com/web/direct-files/3d1023d4e3eab051b585791096a6fad7/d3a499e8-a277-4147-892b-5f11839dd0cc/09b140a4.md" target="_blank">installation guide</a> or <a href="https://ppl-ai-code-interpreter-files.s3.amazonaws.com/web/direct-files/3d1023d4e3eab051b585791096a6fad7/95638b13-d6ec-4e5f-b408-659e30213b1c/b3356305.md" target="_blank">README</a> for detailed instructions.</p>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 HSBC Egypt USD/EGP Monitor Extension. Created for monitoring exchange rates from ta3weem.com.</p>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>

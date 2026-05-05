@@ -1,0 +1,32 @@
+{
+  "manifest_version": 3,
+  "name": "HSBC Egypt USD/EGP Monitor",
+  "version": "1.0.0",
+  "description": "Track USD/EGP exchange rate and Gold Ounce (USD) with direct APIs",
+  "permissions": [
+    "storage",
+    "alarms"
+  ],
+  "host_permissions": [
+    "https://open.er-api.com/*",
+    "https://api.gold-api.com/*",
+    "https://stooq.com/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "USD/EGP + Gold Monitor",
+    "default_icon": {
+      "16": "icon16.png",
+      "48": "icon48.png", 
+      "128": "icon128.png"
+    }
+  },
+  "icons": {
+    "16": "icon16.png",
+    "48": "icon48.png",
+    "128": "icon128.png"
+  }
+}

@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    body {
+      width: 350px;
+      padding: 20px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      margin: 0;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .header h1 {
+      margin: 0;
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    .header p {
+      margin: 5px 0 0 0;
+      font-size: 12px;
+      opacity: 0.8;
+    }
+
+    .rate-container {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 15px;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .bank-name {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 15px;
+      text-align: center;
+    }
+
+    .rates-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+    }
+
+    .rate-item {
+      text-align: center;
+    }
+
+    .rate-label {
+      font-size: 12px;
+      opacity: 0.8;
+      margin-bottom: 5px;
+    }
+
+    .rate-value {
+      font-size: 20px;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .last-updated {
+      font-size: 11px;
+      opacity: 0.7;
+      text-align: center;
+      margin-top: 10px;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 40px 0;
+    }
+
+    .error {
+      background: rgba(255, 69, 58, 0.2);
+      border: 1px solid rgba(255, 69, 58, 0.3);
+      padding: 15px;
+      border-radius: 8px;
+      text-align: center;
+    }
+
+    .controls {
+      margin-top: 15px;
+      text-align: center;
+    }
+
+    .btn {
+      background: rgba(255, 255, 255, 0.2);
+      border: none;
+      color: white;
+      padding: 8px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 12px;
+      margin: 0 5px;
+      transition: all 0.2s;
+    }
+
+    .btn:hover {
+      background: rgba(255, 255, 255, 0.3);
+    }
+
+    .btn:disabled {
+      cursor: not-allowed;
+      opacity: 0.65;
+    }
+
+    .status {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 15px;
+      font-size: 12px;
+      opacity: 0.8;
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #34c759;
+    }
+
+    .status-dot.offline {
+      background: #ff453a;
+    }
+
+    .status-dot.connecting {
+      background: #ffcc00;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>USD/EGP + Gold Monitor</h1>
+    <p>Direct API data with fallback providers</p>
+  </div>
+
+  <div class="status" id="status">
+    <div class="status-dot" id="statusDot"></div>
+    <span id="statusText">Connecting...</span>
+  </div>
+
+  <div id="loading" class="loading">
+    <p>Loading market data...</p>
+  </div>
+
+  <div id="error" class="error" style="display: none;">
+    <p id="errorText">Unable to fetch market data. Please try again.</p>
+  </div>
+
+  <div id="ratesContainer" style="display: none;">
+    <div class="rate-container">
+      <div class="bank-name">Live Snapshot</div>
+      <div class="rates-grid">
+        <div class="rate-item">
+          <div class="rate-label">USD/EGP</div>
+          <div class="rate-value" id="usdEgpRate">--</div>
+          <div class="rate-label" id="usdEgpSource">--</div>
+        </div>
+        <div class="rate-item">
+          <div class="rate-label">Gold Ounce (USD)</div>
+          <div class="rate-value" id="goldOunceUsdRate">--</div>
+          <div class="rate-label" id="goldSource">--</div>
+        </div>
+      </div>
+      <div class="last-updated" id="lastUpdated">--</div>
+    </div>
+  </div>
+
+  <div class="controls">
+    <button class="btn" id="refreshBtn">Refresh</button>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
